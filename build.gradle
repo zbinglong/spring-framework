@@ -15,8 +15,19 @@ plugins {
 	id 'org.asciidoctor.jvm.convert' version '2.4.0'
 	id 'org.asciidoctor.jvm.pdf' version '2.4.0'
 	id "com.github.ben-manes.versions" version '0.28.0'
-	id 'com.gradle.build-scan' version '3.2'
+	id 'com.gradle.build-scan' version '3.10.2'
 	id 'de.undercouch.download' version '4.1.1'
+	id 'com.gradle.common-custom-user-data-gradle-plugin' version '1.7.2'
+}
+
+buildScan {
+	server = "https://cpic.ge.com"
+	allowUntrustedServer = true
+	publishAlways()
+	uploadInBackground = System.getenv("CI") == null
+	capture {                    // for plugin >= 3.7
+		taskInputFiles = true
+	}
 }
 
 apply from: "$rootDir/gradle/build-scan-user-data.gradle"
@@ -290,7 +301,7 @@ configure(allprojects) { project ->
 			mavenCentral()
 			maven { url "https://repo.spring.io/libs-spring-framework-build" }
 			//新增spring插件库
-			//maven { url "https://repo.spring.io/plugins-release" }
+			maven { url "https://repo.spring.io/plugins-release" }
 
 		}
 	}
